@@ -4,6 +4,7 @@ const hbs = require('hbs')
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 const app = express()
+const port = process.env.PORT || 3000
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public')
@@ -26,7 +27,7 @@ app.get('', (req, res) => {
 })
 
 app.get('/help', (req, res) => {
-    res.render('help', { 
+    res.render('help', {
         title: 'HELP',
         helptext: 'This is some helpful text.',
         name: 'Andrew Mead'
@@ -50,7 +51,7 @@ app.get('/weather', (req, res) => {
             if (error) {
                 return res.send({error})
             }
-            
+
             forecast(latitude, longitude, (error,forecastData) => {
                 if (error) {
                     return res.send(error)
@@ -62,7 +63,7 @@ app.get('/weather', (req, res) => {
                     address: req.query.address
                 })
             })
-        }) 
+        })
     }
 })
 
@@ -77,7 +78,7 @@ app.get('/products', (req, res) => {
             products: []
         })
     }
-    
+
 })
 
 app.get('/help/*', (req, res) => {
@@ -101,6 +102,6 @@ app.get('*', (req, res) => {
 //  app.com/about
 //  app.com/whether
 
-app.listen(3000, () => {
-    console.log('Server is up on port 3000.')
+app.listen(port, () => {
+    console.log('Server is up on port '+ port )
 })
